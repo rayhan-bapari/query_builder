@@ -35,61 +35,62 @@
                 </div>
             @endif
 
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <form action="{{ route('products.index') }}" method="GET" class="d-flex gap-2">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control"
-                                placeholder="Search by Product ID or Description" value="{{ request('search') }}">
-                            <button class="btn btn-outline-secondary" type="submit">Search</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-4 text-end">
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add New Product
-                    </a>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Products</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form action="{{ route('products.index') }}" method="GET" class="d-flex gap-2">
+                                        <div class="input-group">
+                                            <input type="text" name="search" class="form-control"
+                                                placeholder="Search by Product ID or Description"
+                                                value="{{ request('search') }}">
+                                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Sorting
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('products.index', ['sort' => null, 'direction' => null]) }}">
+                                                    Default
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('products.index', ['sort' => 'name', 'direction' => request('sort') === 'name' && request('direction') === 'asc' ? 'desc' : 'asc']) }}">
+                                                    Sort by name
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('products.index', ['sort' => 'price', 'direction' => request('sort') === 'price' && request('direction') === 'asc' ? 'desc' : 'asc']) }}">
+                                                    Sort by price
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a href="{{ route('products.create') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Add New Product
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>
-                                            Product ID
-                                        </th>
-                                        <th>
-                                            <a href="{{ route('products.index', ['sort' => 'name', 'direction' => request('sort') === 'name' && request('direction') === 'asc' ? 'desc' : 'asc']) }}"
-                                                class="text-dark text-decoration-none">
-                                                Name
-                                                @if (request('sort') === '')
-                                                    <i class="bi bi-arrow-up-short"></i>
-                                                @elseif (request('sort') === 'name')
-                                                    <i
-                                                        class="bi bi-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}-short"></i>
-                                                @endif
-                                            </a>
-                                        </th>
-                                        <th>
-                                            <a href="{{ route('products.index', ['sort' => 'price', 'direction' => request('sort') === 'price' && request('direction') === 'asc' ? 'desc' : 'asc']) }}"
-                                                class="text-dark text-decoration-none">
-                                                Price
-                                                @if (request('sort') === '')
-                                                    <i class="bi bi-arrow-up-short"></i>
-                                                @elseif (request('sort') === 'price')
-                                                    <i
-                                                        class="bi bi-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}-short"></i>
-                                                @endif
-                                            </a>
-                                        </th>
+                                        <th>Product ID</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
                                         <th>Stock</th>
                                         <th>Image</th>
                                         <th style="width: 250px">Action</th>

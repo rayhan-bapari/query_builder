@@ -19,6 +19,8 @@
         integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}">
 
+    @stack('custom_css')
+
     <style>
         .pagination {
             justify-content: center;

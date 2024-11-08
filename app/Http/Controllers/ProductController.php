@@ -39,15 +39,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "product_id" => "required|string|unique:products,product_id",
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'product_id' => 'required|unique:products',
+            'name' => 'required',
+            'description' => 'nullable',
             'price' => 'required|numeric|min:0',
-            'stock' => 'nullable|integer|min:0',
-            'image' => 'nullable|image|max:2048'
+            'stock' => 'nullable|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        dd($validated);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
@@ -57,6 +55,17 @@ class ProductController extends Controller
         Product::create($validated);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully');
+    }
+
+    public function show($id)
+    {
+        $product = Product::find($id);
+
+        if ($product) {
+            return view("products.show", compact("product"));
+        } else {
+            return redirect()->route('products.index')->with('error', 'Product not found');
+        }
     }
 
     public function edit(string $id)
@@ -73,12 +82,12 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id,' . $id,
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'product_id' => 'required|unique:products,product_id,' . $id,
+            'name' => 'required',
+            'description' => 'nullable',
             'price' => 'required|numeric|min:0',
-            'stock' => 'nullable|integer|min:0',
-            'image' => 'nullable|image|max:2048'
+            'stock' => 'nullable|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $product = Product::find($id);
